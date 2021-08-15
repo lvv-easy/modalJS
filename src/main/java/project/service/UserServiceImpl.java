@@ -1,51 +1,52 @@
 package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.entity.User;
+import project.model.User;
 import project.repository.UserRepository;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    final UserRepository repository;
+    final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(UserRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    @Transactional
+    public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        repository.save(user);
     }
 
     @Override
-    public User update(User user) {
-        return userRepository.save(user);
-    }
-
-    @Override
+    @Transactional
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        repository.deleteById(id);
     }
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).get();
+        return repository.getById(id);
     }
 
     @Override
     public User getByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+        return repository.getByEmail(email);
     }
-
 }

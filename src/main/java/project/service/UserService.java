@@ -1,16 +1,14 @@
 package project.service;
 
-import org.springframework.transaction.annotation.Transactional;
-import project.entity.User;
+
+import project.model.User;
 
 import java.util.List;
 
 public interface UserService {
     List<User> getAllUsers();
 
-    User save(User user);
-
-    User update(User user);
+    void save(User user);
 
     void delete(Long id);
 

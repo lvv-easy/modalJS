@@ -1,6 +1,7 @@
 package project.service;
 
-import project.entity.Role;
+
+import project.model.Role;
 
 import java.util.List;
 

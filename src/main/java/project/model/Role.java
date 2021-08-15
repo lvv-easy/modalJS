@@ -1,49 +1,52 @@
-package project.entity;
+package project.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
-
-@Getter
-@Setter
-@NoArgsConstructor
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = true, unique = true)
     private Long id;
-    @Column(name = "role", nullable = true, unique = true)
-    private String role;
-    @Transient
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
 
-    public Role(Long id, String role) {
-        this.id = id;
-        this.role = role;
+    @Column(name = "name")
+    private String name;
+
+    public Role() {
     }
 
-    public Role(Long id) {
+    public Role(Long id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 
     @Override
     public String toString() {
-        return role;
+        return name;
     }
 
     @Override
