@@ -3,7 +3,7 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.model.Role;
+import project.entity.Role;
 import project.repository.RoleRepository;
 
 import java.util.List;

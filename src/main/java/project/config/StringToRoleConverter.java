@@ -2,7 +2,7 @@ package project.config;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
-import project.model.Role;
+import project.entity.Role;
 
 
 @Component

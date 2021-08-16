@@ -1,10 +1,19 @@
 const usersFetchUrl = "http://localhost:8080/rest/admin/users";
-const oneUserFetchUrl = "http://localhost:8080/rest/user";
+const oneUserFetchUrl = `http://localhost:8080/rest/user`;
+
+$(document).ready(function () {
+    updateTable(oneUserFetchUrl, "#userTable").then()
+});
+
+$(document).ready(function () {
+    updateTable(usersFetchUrl,'#usersTable')
+    fillRoles('#roles')
+});
 
 let form = $('#newUserForm');
 
 async function createNewUser() {
-    var data = getFormData('#newUserForm');
+    let data = getFormData('#newUserForm');
 
     await fetch(usersFetchUrl, {
         method: "POST",
@@ -21,7 +30,7 @@ async function createNewUser() {
 }
 
 function newRow(user, isButtons) {
-    var row = `<tr id="row${user.id}">
+    let row = `<tr id="row${user.id}">
                                              <td>${user.id}</td>
                                              <td>${user.name}</td>
                                              <td>${user.surname}</td>
@@ -51,8 +60,6 @@ function newRow(user, isButtons) {
          </tr>`;
 
     }
-
-
     $('#usersTable').append(row);
 }
 
@@ -65,8 +72,8 @@ function editUser(id) {
 }
 
 async function updateUser() {
-    var data = getFormData('#editForm');
-    var id = data.id;
+    let data = getFormData('#editForm');
+    let id = data.id;
 
     await fetch(usersFetchUrl + "/" + id, {
         method: "PUT",
@@ -84,7 +91,7 @@ async function updateUser() {
 }
 
 function updateRow(rowId, user) {
-    var row = $(rowId).find('td')
+    let row = $(rowId).find('td')
 
     console.log(row);
     row.eq(1).html(user.name);
@@ -100,14 +107,14 @@ function updateRow(rowId, user) {
 
 function deleteUser(id) {
     $('#editModal').modal()
-    fillRoles("#edit_roles")
+    fillRoles("#edit_roles").then()
     loadDataToFormData("#row" + id, "#edit")
     $('#submitButton').text('Delete').addClass('btn btn-danger').attr('onClick', 'removeUser();');
 }
 
 async function removeUser() {
-    var data = getFormData('#editForm');
-    var id = data.id;
+    let data = getFormData('#editForm');
+    let id = data.id;
 
     await fetch(usersFetchUrl + "/" + id, {
         method: "DELETE",
@@ -132,8 +139,8 @@ async function fillRoles(select) {
     await fetch("http://localhost:8080/rest/admin/roles")
         .then(res => {
                 res.json().then(roles => {
-                        for (var i = 0; i < roles.length; i++) {
-                            var option = new Option();
+                        for (let i = 0; i < roles.length; i++) {
+                            let option = new Option();
                             option.id = roles[i].id;
                             option.value = roles[i].name;
                             option.innerHTML = roles[i].name.replaceAll('ROLE_', '');
@@ -151,7 +158,7 @@ function clearUserEditForm() {
 
 function getFormData(form) {
 
-    var selectedRoles = [];
+    let selectedRoles = [];
     $(form + ' option:selected').map(function () {
         selectedRoles.push({
             id: $(this).attr('id'),
@@ -159,7 +166,7 @@ function getFormData(form) {
         });
     });
 
-    var user = {
+    return {
         id: $(form + ' input[name="id"]').val(),
         name: $(form + ' input[name="name"]').val(),
         surname: $(form + ' input[name="surname"]').val(),
@@ -167,8 +174,7 @@ function getFormData(form) {
         email: $(form + ' input[name="email"]').val(),
         password: $(form + ' input[name="password"]').val(),
         roles: selectedRoles
-    }
-    return user;
+    };
 }
 
 function loadDataToFormData(id, action) {
@@ -180,14 +186,14 @@ function loadDataToFormData(id, action) {
         $(action + '_email').val($(this).find("td:eq(4)").html());
         $(action + '_password').val($(this).find("td:eq(8)").html());
 
-        var userRole = $(this).find("td:eq(5)").html();
+        let userRole = $(this).find("td:eq(5)").html();
 
         await fetch("http://localhost:8080/rest/admin/roles")
             .then(res => {
                     res.json().then(roles => {
-                            for (var i = 0; i < roles.length; i++) {
+                            for (let i = 0; i < roles.length; i++) {
                                 if (userRole.includes(roles[i].name.replaceAll('ROLE_', ''))) {
-                                    var selector = 'option[value= "' + roles[i].name + '"]';
+                                    let selector = 'option[value= "' + roles[i].name + '"]';
                                     $(selector).prop('selected', true);
                                 }
                             }
@@ -209,7 +215,7 @@ async function updateTable(fetchUrl, usersTable) {
                 res.json().then(data => {
                         console.log(data);
 
-                        var users = [];
+                        let users = [];
 
                         if ($.isArray(data)) {
                             users = data;
@@ -219,7 +225,7 @@ async function updateTable(fetchUrl, usersTable) {
 
                         $(usersTable).find('tr').remove();
 
-                        for (var i = 0; i < users.length; i++) {
+                        for (let i = 0; i < users.length; i++) {
                             if (usersTable === "#userTable") {
                                 newRow(users[i], false)
                             } else {
