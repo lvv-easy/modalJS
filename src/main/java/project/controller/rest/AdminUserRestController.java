@@ -1,43 +1,33 @@
-package project.controller;
+package project.controller.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import project.entity.User;
-import project.service.RoleService;
 import project.service.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/rest", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserRestController {
+@RequestMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminUserRestController {
 
-    final UserService userService;
-    final RoleService roleService;
+    private final UserService userService;
 
-    @Autowired
-    public UserRestController(UserService service, RoleService roleService) {
+    public AdminUserRestController(UserService service) {
         this.userService = service;
-        this.roleService = roleService;
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<User> getCurrentUserInfo(@AuthenticationPrincipal User user) {
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/admin/users")
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/admin/users/{id}")
-    public ResponseEntity<User> getUserInfo(@PathVariable("id") Long id) {
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<User> getUserInfo(@PathVariable("userId") Long id) {
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -48,7 +38,7 @@ public class UserRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/admin/users")
+    @PostMapping("/users")
     public ResponseEntity<User> create(@RequestBody @Valid User user) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -57,7 +47,7 @@ public class UserRestController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @PutMapping("/admin/users/{id}")
+    @PutMapping("/users/{id}")
     public ResponseEntity<User> update(@RequestBody @Valid User user) {
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -66,9 +56,9 @@ public class UserRestController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/users/{id}")
+    @DeleteMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("id") Long id) {
+    public void delete(@PathVariable("userId") Long id) {
         userService.delete(id);
     }
 }

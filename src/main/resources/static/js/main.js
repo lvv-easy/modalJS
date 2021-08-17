@@ -1,14 +1,5 @@
-const usersFetchUrl = "http://localhost:8080/rest/admin/users";
-const oneUserFetchUrl = `http://localhost:8080/rest/user`;
-
-$(document).ready(function () {
-    updateTable(oneUserFetchUrl, "#userTable").then()
-});
-
-$(document).ready(function () {
-    updateTable(usersFetchUrl,'#usersTable')
-    fillRoles('#roles')
-});
+const usersFetchUrl = "http://localhost:8080/admin/users";
+const oneUserFetchUrl = `http://localhost:8080/user/user`;
 
 let form = $('#newUserForm');
 
@@ -136,7 +127,7 @@ function deleteRow(rowId) {
 async function fillRoles(select) {
     $(select).find('option').remove();
 
-    await fetch("http://localhost:8080/rest/admin/roles")
+    await fetch("http://localhost:8080/admin/roles")
         .then(res => {
                 res.json().then(roles => {
                         for (let i = 0; i < roles.length; i++) {
@@ -188,7 +179,7 @@ function loadDataToFormData(id, action) {
 
         let userRole = $(this).find("td:eq(5)").html();
 
-        await fetch("http://localhost:8080/rest/admin/roles")
+        await fetch("http://localhost:8080/admin/roles")
             .then(res => {
                     res.json().then(roles => {
                             for (let i = 0; i < roles.length; i++) {
