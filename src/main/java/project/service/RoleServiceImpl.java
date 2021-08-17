@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
-    final RoleRepository repository;
+    private final RoleRepository repository;
 
     public RoleServiceImpl(RoleRepository repository) {
         this.repository = repository;
