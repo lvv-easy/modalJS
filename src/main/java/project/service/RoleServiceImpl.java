@@ -16,13 +16,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Role> getAllRoles() {
         return repository.findAll();
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Role findByName(String name) {
         return repository.findByName(name);
     }

@@ -13,7 +13,7 @@ import project.entity.User;
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController {
 
-    @GetMapping("/user")
+    @GetMapping("/current_user")
     public ResponseEntity<User> getCurrentUserInfo(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }

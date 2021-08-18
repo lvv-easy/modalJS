@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> getAllUsers() {
         return repository.findAll();
     }
@@ -39,13 +39,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getById(Long id) {
         return repository.getById(id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public User getByEmail(String email) {
         return repository.getByEmail(email);
     }

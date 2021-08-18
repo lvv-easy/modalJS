@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Minimum password length should be 4 characters")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id")},

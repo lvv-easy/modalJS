@@ -1,5 +1,5 @@
 const usersFetchUrl = "http://localhost:8080/admin/users";
-const oneUserFetchUrl = `http://localhost:8080/user/user`;
+const oneUserFetchUrl = `http://localhost:8080/user/current_user`;
 
 let form = $('#newUserForm');
 

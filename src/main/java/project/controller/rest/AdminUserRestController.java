@@ -48,17 +48,17 @@ public class AdminUserRestController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> update(@RequestBody @Valid User user) {
+    public ResponseEntity<Void> update(@RequestBody @Valid User user) {
         if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
         userService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/users/{userId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable("userId") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("userId") Long id) {
         userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

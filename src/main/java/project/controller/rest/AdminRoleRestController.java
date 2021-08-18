@@ -12,7 +12,7 @@ import project.service.RoleService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRoleRestController {
 
     private final RoleService roleService;
@@ -21,7 +21,7 @@ public class AdminRoleRestController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/admin/roles")
+    @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
     }
