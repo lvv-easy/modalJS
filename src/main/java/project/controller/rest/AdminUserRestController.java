@@ -9,6 +9,8 @@ import project.entity.User;
 import project.service.UserService;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -39,12 +41,15 @@ public class AdminUserRestController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<User> create(@RequestBody @Valid User user) {
-        if (user == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Void> create(@RequestBody @Valid User user) {
+        URI location = null;
+        try {
+            location = new URI("http://localhost:8080/admin/users");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
         userService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.CREATED);
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/users/{id}")
